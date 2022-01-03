@@ -34,7 +34,7 @@ gunnailp: prg.bin data
 	cp data/* $@
 	# gunnailp unique prg rom is byte-swapped, proceed with that:
 	$(BSPLIT) s $< $@.even $@.odd
-	$(BSPLIT) c $@.odd $@.even data/3.u133
+	$(BSPLIT) c $@.odd $@.even data/3.u132
 	rm -rf $@.odd && $@.even
 
 test: gunnail
