@@ -29,14 +29,29 @@ gunnail: prg.bin data
 	cp data/* $@
 	$(BSPLIT) s $< $@/3e.u131 $@/3o.u133
 
+gunnailp: prg.bin data
+	mkdir -p $@
+	cp data/* $@
+	# gunnailp unique prg rom is byte-swapped, proceed with that:
+	$(BSPLIT) s $< $@.even $@.odd
+	$(BSPLIT) c $@.odd $@.even data/3.u133
+	rm -rf $@.odd && $@.even
+
 test: gunnail
+	$(MAME) $< -rompath $(shell pwd) -debug
+
+testp: gunnailp
 	$(MAME) $< -rompath $(shell pwd) -debug
 
 package: gunnail
 	zip gunnail-test.zip $</*
 
+packagep: gunnailp
+	zip gunnailp-test.zip $</*
+
 clean:
 	@-rm -rf gunnail-test.zip
+	@-rm -rf gunnailp-test.zip
 	@-rm -rf data
 	@-rm -rf prg.orig
 	@-rm -rf prg.bin
