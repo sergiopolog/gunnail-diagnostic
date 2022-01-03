@@ -22,7 +22,7 @@ prg.o: prg.orig
 	$(AS) $(SRC) $(ASFLAGS) -o prg.o
 
 prg.bin: prg.o
-	$(P2BIN) $< $@ -r \$$-0xFFFFF
+	$(P2BIN) $< $@ -r \$$-0x7FFFF
 
 gunnail: prg.bin data
 	mkdir -p $@
